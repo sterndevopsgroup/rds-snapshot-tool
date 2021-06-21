@@ -47,22 +47,22 @@ class SnapshotToolException(Exception):
     pass
 
 
-def get_kms_type(kmskeyid,REGION):
+def isAwsKms(kmskeyid, REGION):
 
     keys = re.findall(r'([^\/]+$)',kmskeyid)
     client = boto3.client('kms', region_name=REGION)
-    
+
     for key in keys:
         response = client.describe_key(
             KeyId=key
         )
-    #print(response)
+
     kms_owner = response['KeyMetadata']['KeyManager']
-    
-    if kms_owner != 'AWS':
-        return False
-    else:
+
+    if kms_owner == 'AWS':
         return True
+    else:
+        return False
 
 def search_tag_copydbsnapshot(response):
 # Takes a list_tags_for_resource response and searches for our CopyDBSnapshot tag
@@ -220,7 +220,7 @@ def get_own_snapshots_source(pattern, response, backup_interval=None):
     filtered = {}
 
     for snapshot in response['DBSnapshots']:
-        
+
         # No need to consider snapshots that are still in progress
         if 'SnapshotCreateTime' not in snapshot:
             continue
