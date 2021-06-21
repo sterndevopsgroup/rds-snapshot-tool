@@ -53,9 +53,8 @@
 		},
 		"BackupKmsArn": {
 			"Type": "String",
-			"Default": "NO",
-			"AllowedPattern": "arn:aws:kms:*",
-			"Description": "Set ARN of kms key to copy snapshot with shared key (remember, destination account should be access it)"
+			"AllowedPattern": "arn:aws:kms:.+",
+			"Description": "Set ARN of kms key to copy snapshot with shared key"
 		},
 		"DeleteOldSnapshots": {
 			"Type": "String",
@@ -351,7 +350,7 @@
 						},
 						"BACKUP_KMS":{
 							"Ref": "BackupKmsArn"
-						}	
+						}
 					}
 				},
 				"Role": {
@@ -721,8 +720,8 @@
 			"Description": "Log group for the lambdaTakeSnapshotsRDS function's logs",
 			"DependsOn": "lambdaTakeSnapshotsRDS",
 			"Properties": {
-				"RetentionInDays": { "Ref": "LambdaCWLogRetention" }, 
-				"LogGroupName": { 
+				"RetentionInDays": { "Ref": "LambdaCWLogRetention" },
+				"LogGroupName": {
 					"Fn::Sub": [ "/aws/lambda/${func}", { "func": {	"Ref" : "lambdaTakeSnapshotsRDS" } } ]
 				}
 			}
@@ -733,8 +732,8 @@
 			"Description": "Log group for the lambdaShareSnapshotsRDS function's logs",
 			"DependsOn": "lambdaShareSnapshotsRDS",
 			"Properties": {
-				"RetentionInDays": { "Ref": "LambdaCWLogRetention" }, 
-				"LogGroupName": { 
+				"RetentionInDays": { "Ref": "LambdaCWLogRetention" },
+				"LogGroupName": {
 					"Fn::Sub": [ "/aws/lambda/${func}", { "func": {	"Ref" : "lambdaShareSnapshotsRDS" } } ]
 				}
 			}
@@ -744,7 +743,7 @@
 			"Description": "Log group for the lambdaDeleteOldSnapshotsRDS function's logs",
 			"Properties": {
 				"RetentionInDays": { "Ref": "LambdaCWLogRetention" },
-				"LogGroupName": { 
+				"LogGroupName": {
 					"Fn::Sub": [ "/aws/lambda/${func}", { "func": {	"Ref" : "LogGroupName" } } ]
 				}
 			}
