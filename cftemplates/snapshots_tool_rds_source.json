@@ -304,7 +304,8 @@
 									"rds:ModifyDBSnapshotAttribute",
 									"rds:DescribeDBSnapshotAttributes",
 									"rds:ListTagsForResource",
-									"rds:AddTagsToResource"
+									"rds:AddTagsToResource",
+									"kms:DescribeKey"
 								],
 								"Resource": "*"
 							}]
