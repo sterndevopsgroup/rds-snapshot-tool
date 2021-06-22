@@ -298,6 +298,7 @@
 								"Effect": "Allow",
 								"Action": [
 									"rds:CreateDBSnapshot",
+									"rds:CopyDBSnapshot",
 									"rds:DeleteDBSnapshot",
 									"rds:DescribeDBInstances",
 									"rds:DescribeDBSnapshots",
@@ -305,6 +306,7 @@
 									"rds:DescribeDBSnapshotAttributes",
 									"rds:ListTagsForResource",
 									"rds:AddTagsToResource",
+									"kms:CreateGrant",
 									"kms:DescribeKey"
 								],
 								"Resource": "*"
