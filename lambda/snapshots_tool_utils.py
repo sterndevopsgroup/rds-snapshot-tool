@@ -52,17 +52,25 @@ def isAwsKms(kmskeyid, REGION):
     keys = re.findall(r'([^\/]+$)',kmskeyid)
     client = boto3.client('kms', region_name=REGION)
 
-    for key in keys:
+    isKeyAws = False
+    logger.debug(f"isAwsKms keys={keys}")
+
+    if keys:
+        logger.debug(f"isAwsKms keys[0]={keys[0]}")
+
         response = client.describe_key(
-            KeyId=key
+            KeyId=keys[0]
         )
+        logger.debug(f"isAwsKms response={response}")
 
-    kms_owner = response['KeyMetadata']['KeyManager']
+        kms_owner = response['KeyMetadata']['KeyManager']
 
-    if kms_owner == 'AWS':
-        return True
-    else:
-        return False
+        if kms_owner == 'AWS':
+            isKeyAws = True
+
+        logger.debug(f"isAwsKms isKeyAws={isKeyAws}")
+
+    return isKeyAws
 
 def search_tag_copydbsnapshot(response):
 # Takes a list_tags_for_resource response and searches for our CopyDBSnapshot tag
