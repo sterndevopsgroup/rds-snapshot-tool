@@ -348,9 +348,6 @@
 						},
 						"TAGGEDINSTANCE": {
 							"Ref": "TaggedInstance"
-						},
-						"BACKUP_KMS":{
-							"Ref": "BackupKmsArn"
 						}
 					}
 				},
@@ -393,6 +390,9 @@
 						},
 						"REGION_OVERRIDE": {
 							"Ref": "SourceRegionOverride"
+						},
+						"BACKUP_KMS":{
+							"Ref": "BackupKmsArn"
 						}
 					}
 				},
