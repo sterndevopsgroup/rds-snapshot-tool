@@ -58,17 +58,17 @@ def lambda_handler(event, context):
             )
             timestamp_format = now.strftime('%Y-%m-%d-%H-%M')
             targetSnapshot = snapshot_info['DBSnapshots'][0]['DBInstanceIdentifier'] + '-' + timestamp_format
-            logger.info('snapshot_info:{}'.format(snapshot_info))
+            logger.info(f"snapshot_info={snapshot_info}")
 
             logger.debug(f"initialized isAwsKmsKey={isAwsKmsKey}, BACKUP_KMS={BACKUP_KMS}")
 
             if snapshot_info['DBSnapshots'][0]['Encrypted'] == True:
                 isAwsKmsKey = isAwsKms(snapshot_info['DBSnapshots'][0]['KmsKeyId'], REGION)
 
-            logger.info('Checking Snapshot: {}'.format(snapshot_identifier))
+            logger.info(f"Checking Snapshot={snapshot_identifier}")
             logger.debug(f"isAwsKmsKey={isAwsKmsKey}, BACKUP_KMS={BACKUP_KMS}")
 
-            if isAwsKmsKey is True and BACKUP_KMS is not '':
+            if isAwsKmsKey is True and BACKUP_KMS:
                 try:
                     copy_status = client.copy_db_snapshot(
                         SourceDBSnapshotIdentifier=snapshot_arn,
@@ -78,7 +78,7 @@ def lambda_handler(event, context):
                     )
                     logger.debug(f"isAwsKmsKey True, copy_status: {copy_status}")
                 except Exception as e:
-                    logger.error('Exception copy {}: {}'.format(snapshot_arn, e))
+                    logger.error(f"Exception copy {snapshot_arn}: {e}")
                     pending_snapshots += 1
                 else:
                     modify_status = client.add_tags_to_resource(
